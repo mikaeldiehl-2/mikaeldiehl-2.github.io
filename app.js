@@ -303,4 +303,35 @@ document.addEventListener('DOMContentLoaded', () => {
   renderProducts();
   initCategoryFilters();
   setTimeout(initAnimations, 100);
+
+  // ===== MOBILE MENU TOGGLE =====
+  const menuToggle = document.getElementById('menuToggle');
+  const nav = document.querySelector('.nav');
+
+  if (menuToggle && nav) {
+    menuToggle.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = nav.classList.toggle('nav-open');
+      menuToggle.innerHTML = isOpen ? '&#10005;' : '&#9776;';
+      menuToggle.setAttribute('aria-expanded', isOpen);
+    });
+
+    // Fecha ao clicar em um link
+    nav.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('nav-open');
+        menuToggle.innerHTML = '&#9776;';
+        menuToggle.setAttribute('aria-expanded', false);
+      });
+    });
+
+    // Fecha ao clicar fora
+    document.addEventListener('click', (e) => {
+      if (!nav.contains(e.target) && e.target !== menuToggle) {
+        nav.classList.remove('nav-open');
+        menuToggle.innerHTML = '&#9776;';
+        menuToggle.setAttribute('aria-expanded', false);
+      }
+    });
+  }
 });
